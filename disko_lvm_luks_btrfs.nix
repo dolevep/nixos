@@ -26,11 +26,7 @@
 						size = "100%";
 						content = {
 							type = "luks";
-<<<<<<< HEAD
 							name = "whatsdis";
-=======
-							name = "crypted";
->>>>>>> d6d70aa4215fbcfbc277850e97af4796e378b723
 							settings = {
 								allowDiscards = true;
 							};
@@ -44,11 +40,7 @@
 			};
 		};
 		lvm_vg = {
-<<<<<<< HEAD
 			copycat = {
-=======
-			pool = {
->>>>>>> d6d70aa4215fbcfbc277850e97af4796e378b723
 				type = "lvm_vg";
 				lvs = {
 					root = {
