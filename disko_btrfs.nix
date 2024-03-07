@@ -26,7 +26,7 @@
 						size = "100%";
 						content = {
 							type = "luks";
-#							name = "luks";
+							name = "luks";
 							settings = {
 								allowDiscards = true;
 							};
@@ -57,7 +57,7 @@
 							format = "btrfs";
 							extraArgs = [ "-f" ];
 
-							subVolumes = {
+							subvolumes = {
 								"/root" = {
 									mountpoint = "/";
 								};
