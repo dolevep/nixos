@@ -55,7 +55,9 @@
 						size = "100%FREE";
 						content = {
 							type = "filesystem";
-							format = "xfs";
+							format = "btrfs";
+							extraArgs = [ "-f" ];
+
 							subVolumes = {
 								"/root" = {
 									mountpoint = "/";
