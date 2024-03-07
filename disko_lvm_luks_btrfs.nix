@@ -26,7 +26,7 @@
 						size = "100%";
 						content = {
 							type = "luks";
-							name = "copycat";
+							name = "whatsdis";
 							settings = {
 								allowDiscards = true;
 							};
