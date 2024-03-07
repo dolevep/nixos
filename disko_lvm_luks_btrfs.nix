@@ -26,7 +26,7 @@
 						size = "100%";
 						content = {
 							type = "luks";
-							name = "whatsdis";
+							name = "copycat";
 							settings = {
 								allowDiscards = true;
 							};
@@ -47,7 +47,7 @@
 						size = "100%FREE";
 						content = {
 							type = "filesystem";
-							format = "ext4";
+							format = "xfs";
 							mountpoint = "/";
 							mountOptions = [
 								"defaults"
