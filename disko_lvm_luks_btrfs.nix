@@ -43,6 +43,13 @@
 			copycat = {
 				type = "lvm_vg";
 				lvs = {
+					swap = {
+						size = "2GiB";
+						content = {
+							type = "swap";
+							randomEncryption = true;
+						};
+					};
 					root = {
 						size = "100%FREE";
 						content = {
