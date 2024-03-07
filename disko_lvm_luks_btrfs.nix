@@ -22,6 +22,38 @@
 							];
 						};
 					};
+					luks = {
+						size = "100%";
+						content = {
+							type = "luks";
+							name = "copycat";
+							settings = {
+								allowDiscards = true;
+							};
+							content = {
+								type = "lvm_pv";
+								vg = "copycat";
+							};
+						};
+					};
+				};
+			};
+		};
+		lvm_vg = {
+			copycat = {
+				type = "lvm_vg";
+				lvs = {
+					root = {
+						size = "100%FREE";
+						content = {
+							type = "filesystem";
+							format = "ext4";
+							mountpoint = "/";
+							mountOptions = [
+								"defaults"
+							];
+						};
+					};
 				};
 			};
 		};
