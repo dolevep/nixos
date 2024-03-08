@@ -4,7 +4,7 @@
 # unsure how flake.nix really works - but it seems that it comes before the config file - disk config is there.
 #WARNING: DO NOT TOUCH `./_origin-version.nix` UNLESS ABSOLUTELY CERTAIN YOU KNOW WHAT YOU'RE DOING
 
-{ config, pkgs, ... }:
+{ pkgs, lib, inputs, ... }:
 
 {
 	imports = 

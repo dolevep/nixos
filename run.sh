@@ -43,8 +43,7 @@ echo "}" >> _origin-version.nix
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/configuration.nix -o configuration.nix
 curl https://raw.githubusercontent.com/dolevep/nixos/main/flake.nix -o flake.nix
-
-cp /tmp/disko.nix /mnt/etc/nixos
+cp /tmp/disko.nix /mnt/etc/nixos/disko.nix
 
 echo "Bout to start installing..."
 read -p "Press any key to continue... " -n1 -s
