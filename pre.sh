@@ -18,7 +18,7 @@ nix --experimental-features "nix-command flakes" run github:nix-community/disko 
 
 nixos-generate-config --no-filesystems --root /mnt
 
-cd /etc/nixos
+cd /mnt/etc/nixos
 
 echo "#WARNING: DO NOT TOUCH ./_origin-version.nix UNLESS ABSOLUTELY CERTAIN YOU KNOW WHAT YOU'RE DOING" > _origin-version.nix
 echo "{" >> _origin-version.nix
