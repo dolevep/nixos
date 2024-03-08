@@ -45,4 +45,7 @@ curl https://raw.githubusercontent.com/dolevep/nixos/main/configuration.nix -o c
 
 cp /tmp/disko.nix /mnt/etc/nixos
 
+echo "Bout to start installing..."
+read -p "Press any key to continue... " -n1 -s
 
+nixos-install
