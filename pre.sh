@@ -2,15 +2,16 @@
 #@niceguy
 
 echo "we pregame"
+echo "must be run as root"
 
 # if i want to account for other disk configs i will need to make this dynamic
 #
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/disko_btrfs.nix -o /tmp/disko.nix
 
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device '"/dev/nvme0n1"'
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device '"/dev/nvme0n1"'
 
-sudo nixos-generate-config --no-filesystems --root /mnt
+nixos-generate-config --no-filesystems --root /mnt
 
 cd /etc/nixos
 
@@ -22,6 +23,6 @@ echo "}" >> _origin-version.nix
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/configuration.nix -o configuration.nix
 
-sudo cp /tmp/disko.nix /etc/nixos
+cp /tmp/disko.nix /etc/nixos
 
 
