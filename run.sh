@@ -43,6 +43,6 @@ echo "}" >> _origin-version.nix
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/configuration.nix -o configuration.nix
 
-cp /tmp/disko.nix /etc/nixos
+cp /tmp/disko.nix /mnt/etc/nixos
 
 
