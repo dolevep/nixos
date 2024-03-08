@@ -5,7 +5,7 @@
 # @niceguy
 #
 # usage:
-#   remotely: sh <(curl imp.nz/i) 
+#   remotely: sh <(curl imp.nz) 
 #   locally: sh run.sh
 #
 # NOTES:
@@ -42,6 +42,7 @@ echo "}" >> _origin-version.nix
 > configuration.nix
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/configuration.nix -o configuration.nix
+curl https://raw.githubusercontent.com/dolevep/nixos/main/flake.nix -o flake.nix
 
 cp /tmp/disko.nix /mnt/etc/nixos
 
