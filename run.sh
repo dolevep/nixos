@@ -49,4 +49,5 @@ echo "Bout to start installing..."
 read -p "Press any key to continue... " -n1 -s
 
 #nixos-install
-nixos-rebuild boot --flake /mnt/etc/nixos#default
+#nixos-rebuild boot --flake /mnt/etc/nixos#default
+nixos-install --flake /mnt/etc/nixos#default
