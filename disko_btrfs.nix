@@ -9,8 +9,13 @@
 			content = {
 				type = "gpt";
 				partitions = {
-					boot = {
-						name = "boot";
+          boot = {
+            name = "boot";
+            size = "1M";
+            type = "EF02";
+          };
+					esp = {
+						name = "esp";
 						size = "1024M";
 						type = "EF00";
 						content = {
