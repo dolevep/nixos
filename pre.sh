@@ -2,9 +2,9 @@
 #@niceguy
 
 if [[ `whoami` == "root" ]]; then
-	echo "we pregame"
+	echo "We good to go..."
 else
-	echo "must be run as root"
+	echo "Must be run as root"
 	exit 1
 fi
 read -p "Press any key to continue... " -n1 -s
