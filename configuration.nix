@@ -1,6 +1,8 @@
 # configuration.nix
 # @niceguy
 # auto-last-edit-date-here-would-be-swell-templates-could-be-useful-you-lazy-fuck
+{ config, pkgs, ... }:
+
 {
 	imports = 
 		[
