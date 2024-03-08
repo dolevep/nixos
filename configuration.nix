@@ -27,7 +27,7 @@
 
 		users.users."nice" = {
 			isNormalUser = true;
-			description = "niceguy"
+			description = "niceguy";
 			initialPassword = "1";
 			extraGroups = [ "wheel" ];
 			packages = with pkgs; [
