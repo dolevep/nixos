@@ -1,6 +1,21 @@
 #!/bin/bash
-#@niceguy
-
+# run.sh
+#
+# description: install nixos on a new system
+# @niceguy
+#
+# usage:
+#   remotely: sh <(curl imp.nz/i) 
+#   locally: sh run.sh
+#
+# NOTES:
+#   this is not very dynamic - yet, if i feel the need i'll update it to be so
+#   importantly you will need to manually and preemptively handle the file names 
+#   and device names currently 
+#
+#   ... (hey thats declaritive at least!) 
+#
+#
 if [[ `whoami` == "root" ]]; then
 	echo "We good to go..."
 else

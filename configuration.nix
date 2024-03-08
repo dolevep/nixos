@@ -10,8 +10,10 @@
 #WARNING: DO NOT TOUCH `./_origin-version.nix` UNLESS ABSOLUTELY CERTAIN YOU KNOW WHAT YOU'RE DOING
 			./_origin-version.nix
 
-			./hardware-configuration.nix
 			(import ./disko.nix { device "/dev/nvme0n1"; })
+			./hardware-configuration.nix
+
+			./niceguy.nix # todo 
 		];
 
 		boot.loader.systemd-boot.enable = true;
