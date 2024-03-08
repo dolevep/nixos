@@ -26,7 +26,7 @@
 						size = "100%";
 						content = {
 							type = "luks";
-							name = "luks";
+							name = "copycat";
 							settings = {
 								allowDiscards = true;
 							};
@@ -44,7 +44,7 @@
 				type = "lvm_vg";
 				lvs = {
 					swap = {
-						size = "4GiB";
+						size = "32GiB";
 						content = {
 							type = "swap";
 							resumeDevice = true;
@@ -53,8 +53,7 @@
 					root = {
 						size = "100%FREE";
 						content = {
-							type = "filesystem";
-							format = "btrfs";
+							type = "btrfs";
 							extraArgs = [ "-f" ];
 
 							subvolumes = {
