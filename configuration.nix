@@ -1,11 +1,18 @@
-imports = [ ./hardware-configuration.nix ];
-boot.loader.systemd-boot.enable = true;
-boot.loader.efi.canTouchEfiVariables = true;
-networking.hostName = "copycat";
-network.networkmanager.enable = true;
-time.timeZone = "Pacific/Auckland";
-users.users.twe = {
-	isNormalUser = true;
-	extraGroups = [ "networkmanager" "wheel" ];
-};
-system.stateVersion = "23.11";
+# configuration.nix
+# @niceguy
+# auto-last-edit-date-here-would-be-swell-templates-could-be-useful-you-lazy-fuck
+{
+	imports = 
+		[
+
+#WARNING: DO NOT TOUCH `./_origin-version.nix` UNLESS ABSOLUTELY CERTAIN YOU KNOW WHAT YOU'RE DOING
+			./_origin-version.nix
+
+			./hardware-configuration.nix
+			(import ./disko.nix { device "/dev/nvme0n1"; })
+		];
+
+		boot.loader.systemd-boot.enable = true;
+		boot.loader.efi.canTouchEfiVariables = true;
+
+}
