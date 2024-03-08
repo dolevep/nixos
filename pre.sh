@@ -1,8 +1,12 @@
 #!/bin/bash
 #@niceguy
 
-echo "we pregame"
-echo "must be run as root"
+if [[ `whoami` == "root" ]]; then
+	echo "we pregame"
+else
+	echo "must be run as root"
+	exit 1
+fi
 
 # if i want to account for other disk configs i will need to make this dynamic
 #
