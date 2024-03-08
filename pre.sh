@@ -7,6 +7,7 @@ else
 	echo "must be run as root"
 	exit 1
 fi
+read -p "Press any key to continue... " -n1 -s
 
 # if i want to account for other disk configs i will need to make this dynamic
 #
