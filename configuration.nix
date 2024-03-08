@@ -19,6 +19,9 @@
 		boot.loader.systemd-boot.enable = true;
 		boot.loader.efi.canTouchEfiVariables = true;
 
+		time.timeZone = "Pacific/Auckland";
+		i18n.defaultLocale = "en_NZ.UTF-8";
+
 		nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 		services.openssh.enable = true;

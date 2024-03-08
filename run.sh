@@ -48,4 +48,5 @@ cp /tmp/disko.nix /mnt/etc/nixos/disko.nix
 echo "Bout to start installing..."
 read -p "Press any key to continue... " -n1 -s
 
-nixos-install
+#nixos-install
+nixos-rebuild boot --flake /mnt/etc/nixos#default
