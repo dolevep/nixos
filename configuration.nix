@@ -114,7 +114,7 @@
 		# programs.sway.enable = true;
 		# Allow unfree packages 
 		nixpkgs.config.allowUnfree = true;
-		programs.home-manager.enable = true;
+#		programs.home-manager.enable = true; # this doesnt work - i seen it shuuud, y no wrk pls god y.
 
 		programs.hyprland.enable = true;
 #		programs.hyprland.package = inputs.hyprland.package."${pkgs.system}".hyprland; # apparently this is better but it doesnt work for me yet? typo?
