@@ -161,13 +161,13 @@
 		};
 
 
-		# HOME MANAGER
-		home-manager = {
-			extraSpecialArgs = {inherit inputs;};
-			users = {
-				"niceguy" = import ./home.nix;
-			};
-		};
+		# # HOME MANAGER
+		# home-manager = {
+		# 	extraSpecialArgs = {inherit inputs;};
+		# 	users = {
+		# 		"niceguy" = import ./home.nix;
+		# 	};
+		# };
 
 		#WARNING:
 	# IF I WANT TO DO IMPERMANENCE THIS WILL BE NEEDED - DISKS ARE SET UP FOR IT ... I THINK ...
