@@ -34,50 +34,49 @@
 	# where you see nixosConfiguration.copycat most other examples use 'default'
 	# this allows for nixos --flake /mnt/etc/nixos#copycat (or #default in that case)
 
-  # outputs = {nixpkgs, ...} @ inputs:
-  # {
-  #   nixosConfigurations.copycat = nixpkgs.lib.nixosSystem {
-		# 	system = "x86_64-linux";
-  #
-  #     specialArgs = {inherit inputs;};
-  #
-  #     modules = [
-  #       inputs.disko.nixosModules.default
-  #       (import ./disko.nix { device = "/dev/nvme0n1"; })
-  #
-  #       ./configuration.nix
-  #             
-  #       inputs.home-manager.nixosModules.home-manager {
-		# 		}
+  outputs = {nixpkgs, ...} @ inputs:
+  {
+    nixosConfigurations.copycat = nixpkgs.lib.nixosSystem {
+		system = "x86_64-linux";
+
+    specialArgs = {inherit inputs;};
+
+		modules = [
+			inputs.disko.nixosModules.default
+			(import ./disko.nix { device = "/dev/nvme0n1"; })
+ 
+			./configuration.nix
+              
+			inputs.home-manager.nixosModules.home-manager
 		# 		# copycat above may need to be 'default'
-  #       # inputs.impermanence.nixosModules.impermanence
-  #     ];
-  #   };
-  # };
+        # inputs.impermanence.nixosModules.impermanence
+      ];
+    };
+  };
 
 
-	outputs = inputs @{ nixpkgs, home-manager, ... }:
-	{
-		nixosConfigurations = {
-			copycat = nixpkgs.lib.nixosSystem {
-				system = "x86_64-linux";
-				specialArgs = {inherit inputs;};
-
-				modules = [
-					inputs.disko.nixosModules.default
-					(import ./disko.nix { device = "/dev/nvme0n1"; })
-
-					./configuration.nix
-
-					home-manager.nixosModules.home-manager
-					{
-						home-manager.useGlobalPkgs = true;
-						home-manager.useUserPackages = true;
-					}
-
-				];
-			};
-		};
-	};
+	# outputs = inputs @{ nixpkgs, home-manager, ... }:
+	# {
+	# 	nixosConfigurations = {
+	# 		copycat = nixpkgs.lib.nixosSystem {
+	# 			system = "x86_64-linux";
+	# 			specialArgs = {inherit inputs;};
+	#
+	# 			modules = [
+	# 				inputs.disko.nixosModules.default
+	# 				(import ./disko.nix { device = "/dev/nvme0n1"; })
+	#
+	# 				./configuration.nix
+	#
+	# 				home-manager.nixosModules.home-manager
+	# 				{
+	# 					home-manager.useGlobalPkgs = true;
+	# 					home-manager.useUserPackages = true;
+	# 				}
+	#
+	# 			];
+	# 		};
+	# 	};
+	# };
 
 }
