@@ -78,7 +78,7 @@
 		# networking.firewall.allowTCPPortRanges = [
 		# 	{ from = 69; to 169; }
 		# ];
-		services.openssh.enable = true; # this automatically opens port 22 which we explicitly open above just for examples sake
+		# services.openssh.enable = true; # this automatically opens port 22 which we explicitly open above just for examples sake
 		services.openssh = {
 			enable = true;
 			settings.PasswordAuthentication = false;
