@@ -31,7 +31,7 @@
       specialArgs = {inherit inputs;};
       modules = [
         inputs.disko.nixosModules.copycat
-        (import ./disko_copycat.nix { device = "/dev/nvme0n1"; })
+        (import ./disko.nix { device = "/dev/nvme0n1"; })
 
         ./configuration.nix
               

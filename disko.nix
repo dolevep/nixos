@@ -1,3 +1,6 @@
+# disko.nix designed for copycat
+# @niceguy
+
 {
   device ? throw "Set this to your disk device, e.g. /dev/sda",
   ...
