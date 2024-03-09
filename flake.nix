@@ -24,10 +24,10 @@
     #   url = "github:nix-community/impermanence";
     # };
 
-    # home-manager = {
-    #   url = "github:nix-community/home-manager";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
 	
@@ -44,7 +44,8 @@
 
         ./configuration.nix
               
-        # inputs.home-manager.nixosModules.copycat 
+        inputs.home-manager.nixosModules.copycat 
+				# copycat above may need to be 'default'
         # inputs.impermanence.nixosModules.impermanence
       ];
     };
