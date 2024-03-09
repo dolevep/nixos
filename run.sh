@@ -27,7 +27,7 @@ read -p "Press any key to continue... " -n1 -s
 # if i want to account for other disk configs i will need to make this dynamic
 #
 
-curl https://raw.githubusercontent.com/dolevep/nixos/main/disko_btrfs.nix -o /tmp/disko.nix
+curl https://raw.githubusercontent.com/dolevep/nixos/main/disko_copycat.nix -o /tmp/disko.nix
 
 nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device '"/dev/nvme0n1"'
 
