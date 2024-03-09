@@ -82,7 +82,7 @@
 			# it may be worth considering moving data and transient to my user as it makes more conceptual sense
 			"d /static/data 755 niceguy users"
 			"d /static/transient 777 niceguy users 1d" # conceptually use this for downloading rando source for compliation and testing etc
-		]
+		];
 
 
 		users.users."niceguy" = {
