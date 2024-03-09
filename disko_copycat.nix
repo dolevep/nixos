@@ -65,9 +65,9 @@
 								"/root" = {
 									mountpoint = "/";
 								};
-								"/persist" = {
+								"/static" = {
 									mountOptions = [ "subvol=persist" "noatime" ];
-									mountpoint = "/persist";
+									mountpoint = "/static";
 								};
 								"/nix" = {
 									mountOptions = [ "subvol=nix" "noatime" ];

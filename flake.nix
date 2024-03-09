@@ -2,7 +2,8 @@
 #
 # description: flake.nix file
 # @niceguy
-
+# Flakes is a feature of managing Nix packages to simplify usability and improve reproducibility of Nix installations. Flakes manages dependencies between Nix expressions, which are the primary protocols for specifying packages. Flakes implements these protocols in a consistent schema with a common set of policies for managing packages.
+#   https://nixos.wiki/wiki/Flakes
 {
   description = "NixOS flake config";
      
@@ -29,8 +30,8 @@
     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
-        inputs.disko.nixosModules.default
-        (import ./disko.nix { device = "/dev/nvme0n1"; })
+        inputs.disko.nixosModules.copycat
+        (import ./disko_copycat.nix { device = "/dev/nvme0n1"; })
 
         ./configuration.nix
               

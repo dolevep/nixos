@@ -2,6 +2,18 @@
 # @niceguy
 # auto-last-edit-date-here-would-be-swell-templates-could-be-useful-you-lazy-fuck
 # unsure how flake.nix really works - but it seems that it comes before the config file - disk config is there.
+#
+# /static
+#
+# my system(s? eventually), will have a /static directory, this is basically 'data', a logical, cental 
+# point for all mutable data.
+# 
+# good place for a home directory, no?
+# 
+# thus: /static/u/niceguy
+#   = /static/ (data) -> u/ (users) -> name (name of user)
+#
+#
 #WARNING: DO NOT TOUCH `./_origin-version.nix` UNLESS ABSOLUTELY CERTAIN YOU KNOW WHAT YOU'RE DOING
 
 { pkgs, lib, inputs, ... }:
@@ -16,6 +28,9 @@
 #			./niceguy.nix # todo 
 		];
 
+		# As much as I think I would prefer to use systemd on principle
+		# Being able to do "nixos-rebuild switch -p test" to make a new profile/submenu is actually pretty dope... 
+		# test this now ...
 		boot.loader.systemd-boot.enable = true;
 		boot.loader.efi.canTouchEfiVariables = true;
 
@@ -24,15 +39,41 @@
 
 		nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+		networking.hostName = "copycat";
+
+#		This left here as an example of including more hosts entries
+#		networking.extraHosts = ''
+#			127.0.0.2 other-localhost 
+#		'';
+
 		services.openssh.enable = true;
+
+		# Scary! lets see how she handles it
+		# 
+		#	Automatic Upgrades
+
+		# You can keep a NixOS system up-to-date automatically by adding the following to configuration.nix:
+
+		system.autoUpgrade.enable = true;
+		system.autoUpgrade.allowReboot = false;
+
+		# This enables a periodically executed systemd service named nixos-upgrade.service. If the allowReboot option is false, it runs nixos-rebuild switch --upgrade to upgrade NixOS to the latest version in the current channel. (To see when the service runs, see systemctl list-timers.) If allowReboot is true, then the system will automatically reboot if the new generation contains a different kernel, initrd or kernel modules. You can also specify a channel explicitly, e.g.
+
+		# system.autoUpgrade.channel = "https://channels.nixos.org/nixos-23.11";
 
 		programs.hyprland.enable = true;
 
+		environment.systemPackages = with pkgs; [
+			vim
+		];
+
 		users.users."niceguy" = {
 			isNormalUser = true;
-			description = "niceguy";
+			home = "/static/u/niceguy/";
+			description = "NiceGuy";
 			initialPassword = "1";
-			extraGroups = [ "wheel" ];
+			# hashedPassword = ".kpKfkdtYvszg" # creatable with mkpasswd (currently: 'init') - unsure of algorithm - doesnt seem to be md5
+			extraGroups = [ "wheel" "networkmanager" ];
 			packages = with pkgs; [
 				vim
 				neovim
