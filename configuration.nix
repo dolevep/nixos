@@ -72,7 +72,7 @@
 			settings.PasswordAuthentication = false;
 			settings.KbdInteractiveAuthentication = false;
 			settings.PermitRootLogin = "no";
-		}
+		};
 
 		# WIRELESS
 		networking.wireless.networks = {
