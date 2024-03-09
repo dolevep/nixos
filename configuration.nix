@@ -28,7 +28,7 @@
 #			./niceguy.nix # todo 
 
 			# modules:
-			inputs.home-manager.nixosModules.copycat
+			inputs.home-manager.nixosModules.default
 		];
 
 
@@ -122,10 +122,14 @@
 		# programs.sway.enable = true;
 		# Allow unfree packages 
 		nixpkgs.config.allowUnfree = true;
+		programs.home-manager.enable = true;
 
 		programs.hyprland.enable = true;
-		programs.hyprland.package = inputs.hyprland.package."${pkgs.system}".hyprland;
+#		programs.hyprland.package = inputs.hyprland.package."${pkgs.system}".hyprland; # apparently this is better but it doesnt work for me yet? typo?
+		programs.zsh.enable = true;
 
+
+		# When you can add things with programs.PROGRAM - as there seems to be more support with the way it ties in
 		environment.systemPackages = with pkgs; [
 			vim
 			git
