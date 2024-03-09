@@ -40,11 +40,19 @@
 		boot.loader.systemd-boot.enable = true;
 		boot.loader.efi.canTouchEfiVariables = true;
 
+		# KERNEL
+		boot.kernelPackages = pkgs.linuxPackages_zen;
+
 
 		# LOCALE/LOCALIZATION
 		time.timeZone = "Pacific/Auckland";
 		i18n.defaultLocale = "en_NZ.UTF-8";
 
+# # GPU SHIT WILL NEED TO HAPPEN SADGEGEGEGEEEEEEE
+# 		hardware.opengl.extraPackages = [
+# 			rocmPackages.clr.icd
+# 		];
+# # well that was hard ... does it actually work? it should enable OpenCL support
 
 		# NETWORKING
 		networking.hostName = "copycat";
@@ -61,8 +69,8 @@
 		services.openssh.enable = true; # this automatically opens port 22 which we explicitly open above just for examples sake
 
 		# WIRELESS
-		networking.wireless = {
-			Wildwood = {
+		networking.wireless.networks = {
+			CHANGE_ME_TO_SSD = { # update this to SSID
 				psk = "f3fbcbb759925b159da64c042dcb6d8da4c26ebdd042bf844a68a011270c1375"; # can use wpa_passphrase to change this
 			};
 			free.wifi = {};
@@ -96,14 +104,10 @@
 		programs.sway.enable = true;
 		programs.hyprland.enable = true;
 
-		# GPU SHIT WILL NEED TO HAPPEN SADGEGEGEGEEEEEEE
-		hardware.opengl.extraPackages = [
-			rocmPackages.clr.icd
-		];
-		# well that was hard ... does it actually work? it should enable OpenCL support
 
 		environment.systemPackages = with pkgs; [
 			vim
+			git
 		];
 
 
@@ -112,6 +116,7 @@
 			isNormalUser = true;
 			# TODO: currently it doesn't make the directory...
 			home = "/static/u/niceguy/";
+			shell = pkgs.zsh;
 			description = "NiceGuy";
 #			initialPassword = "1";
 			initialPassword = ''\'';
@@ -119,7 +124,6 @@
 			# format for it seems incorrect atm - need to check.
 			extraGroups = [ "wheel" "networkmanager" ];
 			packages = with pkgs; [
-				vim
 				neovim
 				kitty
 				dunst
