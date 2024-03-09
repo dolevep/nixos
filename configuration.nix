@@ -72,10 +72,14 @@
 #		[
 #			"d /tmp/poo 1111 niceguy users 10d"
 #		]
-
-		[
-			"d /tmp/poo 1111 niceguy users 10d"
+		# DIRECTORIES
+		# worth noting this will only be used for creation...
+		systemd.tmpfiles.rules = [
+			"d /static 755 root users"
+			"d /static/u 755 root users"
+			"d /static/data 755 niceguy users"
 		]
+
 
 		users.users."niceguy" = {
 			isNormalUser = true;
