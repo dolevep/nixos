@@ -30,17 +30,18 @@
     # };
   };
 
+	# where you see 'copycat' most other examples use 'default'
   outputs = {nixpkgs, ...} @ inputs:
   {
-    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.copycat = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
-        inputs.disko.nixosModules.default
+        inputs.disko.nixosModules.copycat
         (import ./disko.nix { device = "/dev/nvme0n1"; })
 
         ./configuration.nix
               
-        # inputs.home-manager.nixosModules.default 
+        # inputs.home-manager.nixosModules.copycat 
         # inputs.impermanence.nixosModules.impermanence
       ];
     };
