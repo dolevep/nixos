@@ -28,7 +28,7 @@
 
 		programs.hyprland.enable = true;
 
-		users.users."nice" = {
+		users.users."niceguy" = {
 			isNormalUser = true;
 			description = "niceguy";
 			initialPassword = "1";
