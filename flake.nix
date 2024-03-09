@@ -27,7 +27,7 @@
 
   outputs = {nixpkgs, ...} @ inputs:
   {
-    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.copycat = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
         inputs.disko.nixosModules.copycat
@@ -35,7 +35,7 @@
 
         ./configuration.nix
               
-        # inputs.home-manager.nixosModules.default
+        # inputs.home-manager.nixosModules.default # default should be copycat
         # inputs.impermanence.nixosModules.impermanence
       ];
     };
