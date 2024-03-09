@@ -1,0 +1,4 @@
+_origin-version.nix
+disko.nix
+flake.lock
+hardware-configuration.nix
