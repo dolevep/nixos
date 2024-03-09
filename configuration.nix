@@ -26,6 +26,9 @@
 			./_origin-version.nix
 			./hardware-configuration.nix
 #			./niceguy.nix # todo 
+
+			# modules:
+			inputs.home-manager.nixosModules.copycat
 		];
 
 
@@ -37,8 +40,17 @@
 		# As much as I think I would prefer to use systemd on principle
 		# Being able to do "nixos-rebuild switch -p test" to make a new profile/submenu is actually pretty dope... 
 		# test this now ...
-		boot.loader.systemd-boot.enable = true;
-		boot.loader.efi.canTouchEfiVariables = true;
+		# boot.loader.systemd-boot.enable = true;
+		# boot.loader.efi.canTouchEfiVariables = true;
+#		boot.loader.grub.enable = true;
+		boot.loader = {
+			grub = {
+				enable = true;
+				efiSupport = true;
+				device = "nodev";
+			};
+		};
+
 
 		# KERNEL
 		boot.kernelPackages = pkgs.linuxPackages_zen;
@@ -108,9 +120,11 @@
 
 		# SYSTEM PACKAGES
 		# programs.sway.enable = true;
+		# Allow unfree packages 
+		nixpkgs.config.allowUnfree = true;
+
 		programs.hyprland.enable = true;
 		programs.hyprland.package = inputs.hyprland.package."${pkgs.system}".hyprland;
-
 
 		environment.systemPackages = with pkgs; [
 			vim
@@ -144,6 +158,15 @@
 			openssh.authorizedKeys.keys = [
 				"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDcSxgkHz5dLJzOwVP8+FgbGjJXpitT/jfA8vWW+9TX3WudWqFFbXdVji5kB7ogSdVNYFZEvvZE9Qul84CClalDHhHFeGCBvudVnDC0pe2z1X7XktZLF957DUAPpGS6nI8n7uwc3eCKLIck1GZiJdE5I0U7CMvoMaXS94RisdxuogQCD+osnrbJa7lIBYHRyuMG1TNoxJ+w5CRkFFbJMViXQERD6OpJGSBmHhehuM/ek6mgi0P8jJ5HI9rNn2ulOIfoU3RdheWV32NtnjtvJ68Zas9n4osREh934z0fO2swT6xHvqyKv3am2D3TENTctt/IHSy6KhbvppfA2EFywkkGXp52QugIX5MVYSmUbZUZcDent2+eOAgHdCMYve+N588QNa9m7lq+7GQUVBKXdjogsVLzJkZCY5z8LkNTRtOZ8vA1VO4Lm1mVmHipma5zhHR3eXoV0fAuzd1kGpHAefOsByLa9wPDexyHcCiou/XQD3pAYKRnlxOet1gjLFZBQVc= twe"
 			];
+		};
+
+
+		# HOME MANAGER
+		home-manager = {
+			extraSpecialArgs = {inherit inputs;};
+			users = {
+				"niceguy" = import ./README.md"niceguy" = import ./home.nix;
+			};
 		};
 
 		#WARNING:
