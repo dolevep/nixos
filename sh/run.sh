@@ -50,4 +50,5 @@ echo "Bout to start installing..."
 
 nixos-install --flake /mnt/etc/nixos#copycat
 cd /etc/nixos
-git clone https://github.com/dolevep/nixos.git .
+nix run --extra-experimental-features "nix-command flakes" nixpkgs#git -- --clone https://github.com/dolevep/nixos.git .
+
