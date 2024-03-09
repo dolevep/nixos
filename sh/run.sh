@@ -51,4 +51,3 @@ echo "Bout to start installing..."
 nixos-install --flake /mnt/etc/nixos#copycat
 cd /etc/nixos
 git clone https://github.com/dolevep/nixos.git .
-reboot
