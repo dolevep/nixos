@@ -165,7 +165,7 @@
 		home-manager = {
 			extraSpecialArgs = {inherit inputs;};
 			users = {
-				"niceguy" = import ./README.md"niceguy" = import ./home.nix;
+				"niceguy" = import ./home.nix;
 			};
 		};
 
