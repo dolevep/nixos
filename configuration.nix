@@ -83,7 +83,8 @@
 			home = "/static/u/niceguy/";
 			description = "NiceGuy";
 			initialPassword = "1";
-			# hashedPassword = ".kpKfkdtYvszg" # creatable with mkpasswd (currently: 'init') - unsure of algorithm - doesnt seem to be md5
+			# hashedPassword = ".kpKfkdtYvszg"; # creatable with mkpasswd (currently: 'init') - unsure of algorithm - doesnt seem to be md5
+			# format for it seems incorrect atm - need to check.
 			extraGroups = [ "wheel" "networkmanager" ];
 			packages = with pkgs; [
 				vim
