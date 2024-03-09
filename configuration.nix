@@ -67,8 +67,19 @@
 			vim
 		];
 
+
+# full example - 10d on the end is clean up age- need to find out more about this - tmpfiles.d
+#		[
+#			"d /tmp/poo 1111 niceguy users 10d"
+#		]
+
+		[
+			"d /tmp/poo 1111 niceguy users 10d"
+		]
+
 		users.users."niceguy" = {
 			isNormalUser = true;
+			# TODO: currently it doesn't make the directory...
 			home = "/static/u/niceguy/";
 			description = "NiceGuy";
 			initialPassword = "1";

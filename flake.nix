@@ -30,13 +30,16 @@
     # };
   };
 
-	# where you see 'copycat' most other examples use 'default'
+	
+	# where you see nixosConfiguration.copycat most other examples use 'default'
+	# this allows for nixos --flake /mnt/etc/nixos#copycat (or #default in that case)
+
   outputs = {nixpkgs, ...} @ inputs:
   {
     nixosConfigurations.copycat = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
-        inputs.disko.nixosModules.copycat
+        inputs.disko.nixosModules.default
         (import ./disko.nix { device = "/dev/nvme0n1"; })
 
         ./configuration.nix
