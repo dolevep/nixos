@@ -22,7 +22,7 @@ else
 	echo "Must be run as root"
 	exit 1
 fi
-read -p "Press any key to continue... " -n1 -s
+#read -p "Press any key to continue... " -n1 -s
 
 # if i want to account for other disk configs i will need to make this dynamic
 #
@@ -46,7 +46,7 @@ curl https://raw.githubusercontent.com/dolevep/nixos/main/flake.nix -o flake.nix
 cp /tmp/disko.nix /mnt/etc/nixos/disko.nix
 
 echo "Bout to start installing..."
-read -p "Press any key to continue... " -n1 -s
+#read -p "Press any key to continue... " -n1 -s
 
 nixos-install --flake /mnt/etc/nixos#copycat
 cd /etc/nixos
