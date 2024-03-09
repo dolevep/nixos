@@ -28,69 +28,93 @@
 #			./niceguy.nix # todo 
 		];
 
+
+		# NixOS SETTINGS
+		nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+
+		# BOOTLOADER
 		# As much as I think I would prefer to use systemd on principle
 		# Being able to do "nixos-rebuild switch -p test" to make a new profile/submenu is actually pretty dope... 
 		# test this now ...
 		boot.loader.systemd-boot.enable = true;
 		boot.loader.efi.canTouchEfiVariables = true;
 
+
+		# LOCALE/LOCALIZATION
 		time.timeZone = "Pacific/Auckland";
 		i18n.defaultLocale = "en_NZ.UTF-8";
 
-		nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+		# NETWORKING
 		networking.hostName = "copycat";
-
 #		This left here as an example of including more hosts entries
 #		networking.extraHosts = ''
 #			127.0.0.2 other-localhost 
 #		'';
+		networking.networkmanager.enable = true;
+		networking.firewall.enable = true;
+		# networking.firewall.allowedTCPPorts = [ 22 ];
+		# networking.firewall.allowTCPPortRanges = [
+		# 	{ from = 69; to 169; }
+		# ];
+		services.openssh.enable = true; # this automatically opens port 22 which we explicitly open above just for examples sake
 
-		services.openssh.enable = true;
+		# WIRELESS
+		networking.wireless = {
+			Wildwood = {
+				psk = "f3fbcbb759925b159da64c042dcb6d8da4c26ebdd042bf844a68a011270c1375"; # can use wpa_passphrase to change this
+			};
+			free.wifi = {};
+		};
 
+
+		#	AUTOMATIC UPDATES
 		# Scary! lets see how she handles it
-		# 
-		#	Automatic Upgrades
-
 		# You can keep a NixOS system up-to-date automatically by adding the following to configuration.nix:
-
 		system.autoUpgrade.enable = true;
 		system.autoUpgrade.allowReboot = false;
-
 		# This enables a periodically executed systemd service named nixos-upgrade.service. If the allowReboot option is false, it runs nixos-rebuild switch --upgrade to upgrade NixOS to the latest version in the current channel. (To see when the service runs, see systemctl list-timers.) If allowReboot is true, then the system will automatically reboot if the new generation contains a different kernel, initrd or kernel modules. You can also specify a channel explicitly, e.g.
-
 		# system.autoUpgrade.channel = "https://channels.nixos.org/nixos-23.11";
 
+
+		# DIRECTORY SETUP
+		# run systemd-tmpfiles --clean to remove superfluous files
+		# 
+		# worth noting this will only be used for creation/updating automagically - it will create new in place what it says (meaning it will overwrite permissions but its not moving the directory), will also not remove anything without a clean
+		systemd.tmpfiles.rules = [
+			"d /static 755 root users ~7d"	# holds data within /static for 7d, will NOT remove files/directories immediately inside
+			"d /static/u 755 root users"
+		];
+#			DO NOT ADD UNLESS YOU'RE ACTIVELY USING SHIT, BE EXPLICIT, BE PURPOSEFUL
+#			EXAMPLES: 
+#			"d /static/testing 755 niceguy users 30s" # 30second hold time for testing - could be some interesting applications to this...
+#			"d /static/data 755 niceguy users"
+#			"d /static/transient 777 niceguy users 1d" # conceptually use this for downloading rando source for compliation and testing etc
+
+		# SYSTEM PACKAGES
+		programs.sway.enable = true;
 		programs.hyprland.enable = true;
+
+		# GPU SHIT WILL NEED TO HAPPEN SADGEGEGEGEEEEEEE
+		hardware.opengl.extraPackages = [
+			rocmPackages.clr.icd
+		];
+		# well that was hard ... does it actually work? it should enable OpenCL support
 
 		environment.systemPackages = with pkgs; [
 			vim
 		];
 
 
-# full example - 10d on the end is clean up age- need to find out more about this - tmpfiles.d
-#		[
-#			"d /tmp/poo 1111 niceguy users 10d"
-#		]
-		# DIRECTORIES
-		# worth noting this will only be used for creation...
-		systemd.tmpfiles.rules = [
-			"d /static 755 root users ~7d"	# holds data within /static for 7d, will NOT remove files/directories immediately inside
-			"d /static/testing niceguy users 30s" # 30second hold time for testing - could be some interesting applications to this...
-			"d /static/u 755 root users"
-
-			# it may be worth considering moving data and transient to my user as it makes more conceptual sense
-			"d /static/data 755 niceguy users"
-			"d /static/transient 777 niceguy users 1d" # conceptually use this for downloading rando source for compliation and testing etc
-		];
-
-
+		# USER SETUP
 		users.users."niceguy" = {
 			isNormalUser = true;
 			# TODO: currently it doesn't make the directory...
 			home = "/static/u/niceguy/";
 			description = "NiceGuy";
-			initialPassword = "1";
+#			initialPassword = "1";
+			initialPassword = ''\'';
 			# hashedPassword = ".kpKfkdtYvszg"; # creatable with mkpasswd (currently: 'init') - unsure of algorithm - doesnt seem to be md5
 			# format for it seems incorrect atm - need to check.
 			extraGroups = [ "wheel" "networkmanager" ];
@@ -100,8 +124,6 @@
 				kitty
 				dunst
 				wofi
-				xwayland
-				hyprland
 			];
 		};
 
