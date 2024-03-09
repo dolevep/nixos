@@ -133,6 +133,7 @@
 			packages = with pkgs; [
 				neovim
 				kitty
+				qutebrowser
 				dunst
 				wofi
 			];
