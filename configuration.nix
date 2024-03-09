@@ -67,6 +67,12 @@
 		# 	{ from = 69; to 169; }
 		# ];
 		services.openssh.enable = true; # this automatically opens port 22 which we explicitly open above just for examples sake
+		services.openssh = {
+			enable = true;
+			settings.PasswordAuthentication = false;
+			settings.KbdInteractiveAuthentication = false;
+			settings.PermitRootLogin = "no";
+		}
 
 		# WIRELESS
 		networking.wireless.networks = {
@@ -129,6 +135,9 @@
 				kitty
 				dunst
 				wofi
+			];
+			openssh.authorizedKeys.keys = [
+				"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDcSxgkHz5dLJzOwVP8+FgbGjJXpitT/jfA8vWW+9TX3WudWqFFbXdVji5kB7ogSdVNYFZEvvZE9Qul84CClalDHhHFeGCBvudVnDC0pe2z1X7XktZLF957DUAPpGS6nI8n7uwc3eCKLIck1GZiJdE5I0U7CMvoMaXS94RisdxuogQCD+osnrbJa7lIBYHRyuMG1TNoxJ+w5CRkFFbJMViXQERD6OpJGSBmHhehuM/ek6mgi0P8jJ5HI9rNn2ulOIfoU3RdheWV32NtnjtvJ68Zas9n4osREh934z0fO2swT6xHvqyKv3am2D3TENTctt/IHSy6KhbvppfA2EFywkkGXp52QugIX5MVYSmUbZUZcDent2+eOAgHdCMYve+N588QNa9m7lq+7GQUVBKXdjogsVLzJkZCY5z8LkNTRtOZ8vA1VO4Lm1mVmHipma5zhHR3eXoV0fAuzd1kGpHAefOsByLa9wPDexyHcCiou/XQD3pAYKRnlxOet1gjLFZBQVc= twe"
 			];
 		};
 
