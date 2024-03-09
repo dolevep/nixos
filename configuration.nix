@@ -75,9 +75,13 @@
 		# DIRECTORIES
 		# worth noting this will only be used for creation...
 		systemd.tmpfiles.rules = [
-			"d /static 755 root users"
+			"d /static 755 root users ~7d"	# holds data within /static for 7d, will NOT remove files/directories immediately inside
+			"d /static/testing niceguy users 30s" # 30second hold time for testing - could be some interesting applications to this...
 			"d /static/u 755 root users"
+
+			# it may be worth considering moving data and transient to my user as it makes more conceptual sense
 			"d /static/data 755 niceguy users"
+			"d /static/transient 777 niceguy users 1d" # conceptually use this for downloading rando source for compliation and testing etc
 		]
 
 
