@@ -134,9 +134,9 @@
 			isNormalUser = true;
 			# TODO: currently it doesn't make the directory...
 			home = "/static/u/niceguy"; # make absolutely sure not to have a trailing slash on HOME dirs
-			environment.sessionVariables = {
-				EDITOR = "nvim"
-			};
+			# environment.sessionVariables = {
+			# 	EDITOR = "nvim"
+			# };
 			shell = pkgs.zsh;
 			description = "NiceGuy";
 #			initialPassword = "1";
