@@ -27,7 +27,7 @@ read DISK_DEV
 [[ $DISK_DEV == "" ]] && DISK_DEV="nvme0n1";
 
 echo "[/dev/$DISK_DEV] ... is this correct?"
-read -n1 -r -p " y? : " CHOICE
+read -n1 -r -p " [y/enter/c] : " CHOICE
 case $CHOICE in
   y|Y|"") echo "wheeee";;
   *) echo "Fuckitbruh" && exit 1 ;;
@@ -35,8 +35,6 @@ esac
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix?$RANDOM -o /tmp/disko.nix
 
-ACTUAL_DEV='"/dev/'${DISK_DEV}'"'
-echo "fuck you for now no variable on this ... its being shitty"
 nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device '"/dev/'${DISK_DEV}'"'
 
 nixo-generate-config --no-filesystems --root /mnt
