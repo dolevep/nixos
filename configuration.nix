@@ -60,11 +60,10 @@
 			# -+v+- ./configuration.nix -+v+- 
 			./_origin-version.nix
 			./hardware-configuration.nix
-			# └-> ./system-configuration.nix
+			./system-configuration.nix
 			# -+^+- ./configuration.nix -+^+-
 			# ...
 		];
-
 
 		# NixOS SETTINGS
 		nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -151,6 +150,7 @@
 			"d /static 755 root users ~7d"	# holds data within /static for 7d, will NOT remove files/directories immediately inside
 			"d /static/u 755 root users"
 			"d /copycat 775 root copycat"  # this will be where our actual system configuration will live in perpetuity
+			"f /copycat/*.nix 775 root copycat"
 		];
 #			DO NOT ADD UNLESS YOU'RE ACTIVELY USING SHIT, BE EXPLICIT, BE PURPOSEFUL
 #			EXAMPLES: 
@@ -159,10 +159,8 @@
 #			"d /static/transient 777 niceguy users 1d" # conceptually use this for downloading rando source for compliation and testing etc
 
 		# SYSTEM PACKAGES
-		# programs.sway.enable = true;
 		# Allow unfree packages 
 		nixpkgs.config.allowUnfree = true;
-#		programs.home-manager.enable = true; # this doesnt work - i seen it shuuud, y no wrk pls god y.
 
 		# LD FIX (TY No Boilerplate) - https://nix.dev/guides/faq.html
 		programs.nix-ld.enable = true;
@@ -196,11 +194,4 @@
 			# packages = with pkgs; [
 			# ];
 		};
-
-
-		# base configured
-		# IMPORT SYSTEM
-		copycat = {};
-		copycat = import ./system-configuration.nix
-
 }
