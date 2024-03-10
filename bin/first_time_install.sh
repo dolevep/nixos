@@ -26,8 +26,6 @@ read DISK_DEV
 
 echo "[/dev/$DISK_DEV] ... is this correct?"
 
-
-
 while IFS= read -n1 -r -p "y or break: " && [[ $REPLY != q ]]; do
   case $REPLY in
     y) echo "\nwheeeeeeeeeee" && exit 0;;
