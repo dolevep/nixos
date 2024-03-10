@@ -20,8 +20,9 @@ set -e
 
 [[ ! `whoami` == "root"  ]] && echo "Must be run as root.." && exit 1
 
-echo "Enter your device name (ex:nvme0n1): "
+echo "Enter your device name [nvme0n1]: "
 read DISK_DEV
+[[ $DISK_DEV == "" ]] DISK_DEV="nvme0n1"
 
 echo "[/dev/$DISK_DEV] ... is this correct?"
 
