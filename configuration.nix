@@ -13,7 +13,42 @@
 # thus: /static/u/niceguy
 #   = /static/ (data) -> u/ (users) -> name (name of user)
 #
+# along the same line of thinking, using btrfs labels, id like to keep my entire system configuration isolated 
+# thus /copycat and the copycat user group are made and now we have user level access to make changes
+# and only requiring root once we would like to commit / rebuild / switch
 #
+# in my mind configuration is a bucket containing all the others, but it might be worth tying to reframe
+# my thinking to flake contains hardware-configuration and configuration which contains system-configuration / 
+# and then becomes either system-configuration is the end point or home-manager or whatever other alternative there 
+# might be out there.
+# 
+# hardware-configuration is already separate from the rest, 
+# following convention I make configuration.nix my base
+# including some initial user passwords and such
+# and following our disko configuration. 
+# 
+# once used these are largely left untouched/changed unless a physical system rebuild occurs,
+# you're spinning up on a new device, or conventions/standards within nix force an update.
+#
+# that leaves system-configuration.nix which because it has all the others as a 'base' 
+# thus we should probably import at the END of our configuration.
+#
+# this means ultimately our entire system will be 
+# 
+#	./_origin-version.nix
+# ./flake.nix
+# ./hardware-configuration.nix    
+# ./configuration.nix							<- you're here now
+# ./system-configuration.nix
+#
+#	system-configuration in theory is actually doing some of the work of home-manager, but the beauty of this setup is
+# should i want to piece out i only need to adjust the system-configuration and my local home.nix file 
+# 
+# this level of separation into logical chunks makes it very easy to work with
+# the most important thing to be very VERY CAREFUL of is, do not let this balloon, it can be very
+# difficult to untether a bunch of interlinking config files - so having this 'plan' to stick to means 
+# we hopefully avoid that in the future but still allow for extensibility.
+# 
 #WARNING: DO NOT TOUCH `./_origin-version.nix` UNLESS ABSOLUTELY CERTAIN YOU KNOW WHAT YOU'RE DOING
 
 { pkgs, lib, inputs, ... }:
@@ -40,11 +75,18 @@
 		# As much as I think I would prefer to use systemd on principle
 		# Being able to do "nixos-rebuild switch -p test" to make a new profile/submenu is actually pretty dope... 
 		# test this now ...
+
+		# systemd
 		# boot.loader.systemd-boot.enable = true;
+		#	boot.loader.efi.canTouchEfiVariables = true;
 		# boot.loader.systemd-boot.memtest86.enable = true;
+
+		# grub
 		boot.loader.grub.enable = true;
-		boot.loader.efi.canTouchEfiVariables = true;
-		boot.loader.grub.memtest86.enable = true;
+		boot.loader.grub.device = "nodev";
+		boot.loader.grub.efiSupport = true;
+		boot.loader.grub.efiInstallAsremovable = true;
+		# generationsDir /copy kernels etc looks interesting for the way we want our generations to work
 
 
 		# KERNEL
@@ -55,41 +97,29 @@
 		time.timeZone = "Pacific/Auckland";
 		i18n.defaultLocale = "en_NZ.UTF-8";
 
-# # GPU SHIT WILL NEED TO HAPPEN SADGEGEGEGEEEEEEE
-# 		hardware.opengl.extraPackages = [
-# 			rocmPackages.clr.icd
-# 		];
-# # well that was hard ... does it actually work? it should enable OpenCL support
 
 		# NETWORKING
 		networking.hostName = "copycat";
-#		This left here as an example of including more hosts entries
-#		networking.extraHosts = ''
-#			127.0.0.2 other-localhost 
-#		'';
-		networking.networkmanager.enable = true;
-		networking.firewall.enable = true;
+		# This left here as an example of including more hosts entries and firewall rules 
+		# networking.extraHosts = ''
+		# 	127.0.0.2 other-localhost 
+		# '';
 		# networking.firewall.allowedTCPPorts = [ 22 ];
 		# networking.firewall.allowTCPPortRanges = [
 		# 	{ from = 69; to 169; }
 		# ];
 		# services.openssh.enable = true; # this automatically opens port 22 which we explicitly open above just for examples sake
+		
+		# networking management - probably swap off networkmanager the ugly pos...
+		networking.networkmanager.enable = true;
+		networking.firewall.enable = true;
 		services.openssh = {
 			enable = true;
 			settings.PasswordAuthentication = false;
 			settings.KbdInteractiveAuthentication = false;
 			settings.PermitRootLogin = "no";
 		};
-
-		# WIRELESS
-		networking.wireless.networks = {
-			Wildwood = { # update this to SSID
-				psk = "f3fbcbb759925b159da64c042dcb6d8da4c26ebdd042bf844a68a011270c1375"; # can use wpa_passphrase to change this
-			};
-			free.wifi = {};
-		};
-
-
+		
 		#	AUTOMATIC UPDATES
 		# Scary! lets see how she handles it
 		# You can keep a NixOS system up-to-date automatically by adding the following to configuration.nix:
@@ -104,12 +134,14 @@
 				"-L"
 			];
 			dates = "09:00";
-			randomizedDelaySec = "45min";
+			randomizedDelaySec = "30min";
 		};
 
 		# This enables a periodically executed systemd service named nixos-upgrade.service. If the allowReboot option is false, it runs nixos-rebuild switch --upgrade to upgrade NixOS to the latest version in the current channel. (To see when the service runs, see systemctl list-timers.) If allowReboot is true, then the system will automatically reboot if the new generation contains a different kernel, initrd or kernel modules. You can also specify a channel explicitly, e.g.
 		# system.autoUpgrade.channel = "https://channels.nixos.org/nixos-23.11";
 
+		# GROUP SETUP
+		users.groups.copycat = {};
 
 		# DIRECTORY SETUP
 		# run systemd-tmpfiles --clean to remove superfluous files
@@ -118,6 +150,7 @@
 		systemd.tmpfiles.rules = [
 			"d /static 755 root users ~7d"	# holds data within /static for 7d, will NOT remove files/directories immediately inside
 			"d /static/u 755 root users"
+			"d /copycat 775 root copycat"  # this will be where our actual system configuration will live in perpetuity
 		];
 #			DO NOT ADD UNLESS YOU'RE ACTIVELY USING SHIT, BE EXPLICIT, BE PURPOSEFUL
 #			EXAMPLES: 
@@ -155,80 +188,18 @@
 		# USER SETUP
 		users.users."niceguy" = {
 			isNormalUser = true;
-			# TODO: currently it doesn't make the directory...
 			home = "/static/u/niceguy"; # make absolutely sure not to have a trailing slash on HOME dirs
-			# environment.sessionVariables = {
-			# 	EDITOR = "nvim"
-			# };
 			shell = pkgs.fish;
 			description = "NiceGuy";
-#			initialPassword = "1";
 			initialPassword = ''\'';
-			# hashedPassword = ".kpKfkdtYvszg"; # creatable with mkpasswd (currently: 'init') - unsure of algorithm - doesnt seem to be md5
-			# format for it seems incorrect atm - need to check.
-			extraGroups = [ "wheel" "networkmanager" ];
-			packages = with pkgs; [
-				neovim
-				kitty
-				qutebrowser
-				dunst
-				wofi
-				powertop
-				btop
-			];
-
-			openssh.authorizedKeys.keys = [
-				"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDcSxgkHz5dLJzOwVP8+FgbGjJXpitT/jfA8vWW+9TX3WudWqFFbXdVji5kB7ogSdVNYFZEvvZE9Qul84CClalDHhHFeGCBvudVnDC0pe2z1X7XktZLF957DUAPpGS6nI8n7uwc3eCKLIck1GZiJdE5I0U7CMvoMaXS94RisdxuogQCD+osnrbJa7lIBYHRyuMG1TNoxJ+w5CRkFFbJMViXQERD6OpJGSBmHhehuM/ek6mgi0P8jJ5HI9rNn2ulOIfoU3RdheWV32NtnjtvJ68Zas9n4osREh934z0fO2swT6xHvqyKv3am2D3TENTctt/IHSy6KhbvppfA2EFywkkGXp52QugIX5MVYSmUbZUZcDent2+eOAgHdCMYve+N588QNa9m7lq+7GQUVBKXdjogsVLzJkZCY5z8LkNTRtOZ8vA1VO4Lm1mVmHipma5zhHR3eXoV0fAuzd1kGpHAefOsByLa9wPDexyHcCiou/XQD3pAYKRnlxOet1gjLFZBQVc= twe"
-			];
+			extraGroups = [ "wheel" "networkmanager" "copycat" ];
+			# packages = with pkgs; [
+			# ];
 		};
 
 
-		# # HOME MANAGER
-		# home-manager = {
-		# 	extraSpecialArgs = {inherit inputs;};
-		# 	users = {
-		# 		"niceguy" = import ./home.nix;
-		# 	};
-		# };
-
-		#WARNING:
-	# IF I WANT TO DO IMPERMANENCE THIS WILL BE NEEDED - DISKS ARE SET UP FOR IT ... I THINK ...
-	# REVIEW BEFORE IMPLEMENTING BLINDLY
-	# SERIOUSLY, DONT BE AN IDIOT
-	# ...
-	# GODDAMNIT I KNOW YOU
-	# ...
-	# listen
-	# ..
-	# pls
-	# .
-	#
-	# 	boot.initrd.postDeviceCommands = lib.mkAfter ''
-	# 		mkdir /btrfs_tmp
-	# 	  mount /dev/copycat/root /btrfs_tmp
-	#     if [[ -e /btrfs_tmp/root ]]; then
-	# 				mkdir -p /btrfs_tmp/old_roots
-	# 			  timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
-	# 		    mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
-	# 	  fi
-	#
-	#     delete_subvolume_recursively() {
-	# 			  IFS=$'\n'
-	# 		    for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-	# 	          delete_subvolume_recursively "/btrfs_tmp/$i"
-	#         done
-	# 		    btrfs subvolume delete "$1"
-	# 	  }
-	#
-	#     for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
-	# 		    delete_subvolume_recursively "$i"
-	# 	  done
-	# 
-	#     btrfs subvolume create /btrfs_tmp/root
-	# 		umount /btrfs_tmp
-	# 	'';
-	#
-		#WARNING:
-	# IF I WANT TO DO IMPERMANENCE THIS WILL BE NEEDED - DISKS ARE SET UP FOR IT ... I THINK ...
+		# base configured
+		# IMPORT SYSTEM
+		import ./system-configuration.nix
 
 }

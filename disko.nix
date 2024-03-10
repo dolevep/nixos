@@ -68,6 +68,10 @@
 								"/root" = {
 									mountpoint = "/";
 								};
+								"/copycat" = {
+									mountOptions = [ "subvol=persist" "noatime" ];
+									mountpoint = "/copycat"
+								};
 								"/static" = {
 									mountOptions = [ "subvol=persist" "noatime" ];
 									mountpoint = "/static";

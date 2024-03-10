@@ -20,10 +20,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # impermanence = {
-    #   url = "github:nix-community/impermanence";
-    # };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -33,7 +29,6 @@
 	
 	# where you see nixosConfiguration.copycat most other examples use 'default'
 	# this allows for nixos --flake /mnt/etc/nixos#copycat (or #default in that case)
-
 	outputs = {nixpkgs, ...} @ inputs:
   {
     nixosConfigurations.copycat = nixpkgs.lib.nixosSystem {
@@ -45,7 +40,6 @@
         ./configuration.nix
               
         inputs.home-manager.nixosModules.default 
-        # inputs.impermanence.nixosModules.impermanence
       ];
     };
   };
