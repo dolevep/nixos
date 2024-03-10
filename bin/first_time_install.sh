@@ -27,17 +27,15 @@ read DISK_DEV
 [[ $DISK_DEV == "" ]] && DISK_DEV="nvme0n1";
 
 echo "[/dev/$DISK_DEV] ... is this correct?"
-echo " : "
 read -n1 -r -p " y? : " CHOICE
-
-  case $CHOICE in
-    y|Y|"") echo "wheeee";;
-    *) echo "Fuckitbruh" && exit 1 ;;
-  esac
+case $CHOICE in
+  y|Y|"") echo "wheeee";;
+  *) echo "Fuckitbruh" && exit 1 ;;
+esac
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix?$RANDOM -o /tmp/disko.nix
 
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device '"/dev/$DISK_DEV"'
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device \'"/dev/$DIS_DEV"\'
 
 
 nixos-generate-config --no-filesystems --root /mnt
