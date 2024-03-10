@@ -33,9 +33,9 @@ nixos-generate-config --no-filesystems --root /mnt
 cd /mnt/etc/nixos
 
 echo "#WARNING: DO NOT TOUCH ./_origin-version.nix UNLESS ABSOLUTELY CERTAIN YOU KNOW WHAT YOU'RE DOING" > _origin-version.nix
-# echo "{" >> _origin-version.nix
+echo "{" >> _origin-version.nix
 cat configuration.nix | grep "system.stateVersion" >> _origin-version.nix
-# echo "}" >> _origin-version.nix
+echo "}" >> _origin-version.nix
 > configuration.nix
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/configuration.nix -o configuration.nix

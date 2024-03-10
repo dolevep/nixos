@@ -200,6 +200,7 @@
 
 		# base configured
 		# IMPORT SYSTEM
-		import ./system-configuration.nix
+		copycat = {};
+		copycat = import ./system-configuration.nix
 
 }
