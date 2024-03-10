@@ -35,10 +35,10 @@ esac
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix?$RANDOM -o /tmp/disko.nix
 
-echo fuck you
-echo fuck you
+echo "fuck you"
+echo "fuck you"
 nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device "/dev/${DISK_DEV}"
-echo hug you
+echo "hug you"
 exit 1
 
 
@@ -56,7 +56,7 @@ echo "}" >> _origin-version.nix
 > configuration.nix
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/base/flake.nix -o flake.nix
-sed -i 's/nvme0n1/$DISK_DEV/g' flake.nix
+sed -i "s/nvme0n1/$DISK_DEV/g" flake.nix
 curl https://raw.githubusercontent.com/dolevep/nixos/main/base/configuration.nix -o configuration.nix
 echo "{}" > system-configuration.nix
 # curl https://raw.githubusercontent.com/dolevep/nixos/main/system-configuration.nix -o system-configuration.nix
