@@ -37,7 +37,7 @@ curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix?$RANDOM
 
 echo "fuck you"
 echo "fuck you"
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device "/dev/${DISK_DEV}"
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device \'"/dev/${DISK_DEV}"\'
 echo "hug you"
 exit 1
 
