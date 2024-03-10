@@ -35,10 +35,12 @@ esac
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix?$RANDOM -o /tmp/disko.nix
 
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device \'"/dev/${DISK_DEV}"\'
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device "/dev/${DISK_DEV}"
+echo fuck you
+exit 1
 
 
-nixos-generate-config --no-filesystems --root /mnt
+nixo-generate-config --no-filesystems --root /mnt
 mkdir -p /copycat/base
 pushd /copycat/base
 mv /tmp/disko.nix .
