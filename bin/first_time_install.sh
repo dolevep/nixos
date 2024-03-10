@@ -57,11 +57,11 @@ echo "{}" > system-configuration.nix
 
 nixos-install --flake /copycat/base#default
 
-mkdir -p /mnt/copycat/live
-pushd /mnt/copycat/live
-cp /mnt/copycat/base/*.nix .
-> system-configuration.nix
-pushd 
-
-popd +1
+# mkdir -p /mnt/copycat/live
+# pushd /mnt/copycat/live
+# cp /mnt/copycat/base/*.nix .
+# > system-configuration.nix
+# pushd 
+#
+# popd +1
 
