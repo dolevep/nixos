@@ -30,7 +30,7 @@ echo "[/dev/$DISK_DEV] ... is this correct?"
 
 while IFS= read -n1 -r -p "y or break: " && [[ $REPLY != q ]]; do
   case $REPLY in
-    y) echo "\nwheeeeeeeeeee" && exit 0 ;;
+    y) echo "\nwheeeeeeeeeee" && break ;;
     *) echo "\nFuckitbruh" && exit 1 ;;
   esac
 done
