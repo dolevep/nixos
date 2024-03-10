@@ -27,13 +27,13 @@ read DISK_DEV
 [[ $DISK_DEV == "" ]] && DISK_DEV="nvme0n1";
 
 echo "[/dev/$DISK_DEV] ... is this correct?"
+echo " : "
+read -n1 -r -p " y? : " CHOICE
 
-while IFS= read -n1 -r -p "y or break: " && [[ $REPLY != q ]]; do
-  case $REPLY in
-    y) echo "\nwheeeeeeeeeee" && break ;;
-    *) echo "\nFuckitbruh" && exit 1 ;;
+  case $CHOICE in
+    y|Y|"") echo "wheeee";;
+    *) echo "Fuckitbruh" && exit 1 ;;
   esac
-done
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix?$RANDOM -o /tmp/disko.nix
 
