@@ -18,10 +18,10 @@
 #
 set -e
 
-if [[ `whoami` == "root" && test -f /tmp/os-device.nix ]]; then
+if [[ `whoami` == "root" && -f /tmp/os-device.nix ]]; then
 	echo "We good to go..."
 else
-	echo "Must be run as root" && exit 1
+	echo "Must be run as root and put your device (ex. '/dev/nvme0n1') into /tmp/os-device.nix" && exit 1
 fi
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/disko.nix -o /tmp/disko.nix
@@ -43,7 +43,6 @@ curl https://raw.githubusercontent.com/dolevep/nixos/main/flake.nix -o flake.nix
 curl https://raw.githubusercontent.com/dolevep/nixos/main/system-configuration.nix -o system-configuration.nix
 cp /tmp/disko.nix /mnt/etc/nixos/disko.nix
 
-echo "Bout to start installing..."
 
 nixos-install --flake /mnt/etc/nixos#copycat
 cd /etc/nixos
