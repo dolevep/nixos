@@ -54,9 +54,14 @@ curl https://raw.githubusercontent.com/dolevep/nixos/main/base/flake.nix -o flak
 sed -i "s/nvme0n1/$DISK_DEV/g" flake.nix
 curl https://raw.githubusercontent.com/dolevep/nixos/main/base/configuration.nix -o configuration.nix
 echo "{}" > system-configuration.nix
-# curl https://raw.githubusercontent.com/dolevep/nixos/main/system-configuration.nix -o system-configuration.nix
 
 nixos-install --flake /copycat/base#default
-popd +1
 
+mkdir -p /mnt/copycat/live
+pushd /mnt/copycat/live
+cp /mnt/copycat/base/*.nix .
+> system-configuration.nix
+pushd 
+
+popd +1
 
