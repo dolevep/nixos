@@ -56,14 +56,13 @@
 {
 	imports = 
 		[
-			# disks presumably handled by flake and disko via flake.nix 
-			# prior to this. but doesn't need imported?
+			# --v-- ./flake.nix --v--
+			# -+v+- ./configuration.nix -+v+- 
 			./_origin-version.nix
 			./hardware-configuration.nix
-#			./niceguy.nix # todo 
-
-			# modules:
-			inputs.home-manager.nixosModules.default
+			# └-> ./system-configuration.nix
+			# -+^+- ./configuration.nix -+^+-
+			# ...
 		];
 
 
@@ -82,6 +81,7 @@
 		# boot.loader.systemd-boot.memtest86.enable = true;
 
 		# grub
+		boot.loader.systemd-boot.enable = false;
 		boot.loader.grub.enable = true;
 		boot.loader.grub.device = "nodev";
 		boot.loader.grub.efiSupport = true;

@@ -19,11 +19,6 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
 	
@@ -35,11 +30,9 @@
       specialArgs = {inherit inputs;};
       modules = [
         inputs.disko.nixosModules.default
-        (import ./disko.nix { device = "/dev/nvme0n1"; })
+        (import ./disko.nix { device = import /tmp/os-device.nix; })
 
         ./configuration.nix
-              
-        inputs.home-manager.nixosModules.default 
       ];
     };
   };
