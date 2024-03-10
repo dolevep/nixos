@@ -38,8 +38,8 @@ curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix?$RANDOM
 nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device '"/dev/'${DISK_DEV}'"'
 
 nixos-generate-config --no-filesystems --root /mnt
-mkdir -p /copycat/base
-pushd /copycat/base
+mkdir -p /mnt/copycat/base
+pushd /mnt/copycat/base
 mv /tmp/disko.nix .
 mv /mnt/etc/nixos/* .
 
