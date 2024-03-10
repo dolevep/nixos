@@ -18,7 +18,7 @@
 #
 set -e
 
-if [[ `whoami` == "root" ]]; then
+if [[ `whoami` == "root" && test -f /tmp/os-device.nix ]]; then
 	echo "We good to go..."
 else
 	echo "Must be run as root" && exit 1
@@ -44,7 +44,6 @@ curl https://raw.githubusercontent.com/dolevep/nixos/main/system-configuration.n
 cp /tmp/disko.nix /mnt/etc/nixos/disko.nix
 
 echo "Bout to start installing..."
-#read -p "Press any key to continue... " -n1 -s
 
 nixos-install --flake /mnt/etc/nixos#copycat
 cd /etc/nixos
