@@ -24,9 +24,10 @@
 	
 	# where you see nixosConfiguration.copycat most other examples use 'default'
 	# this allows for nixos --flake /mnt/etc/nixos#copycat (or #default in that case)
+	# i changed back to default for here 
 	outputs = {nixpkgs, ...} @ inputs:
   {
-    nixosConfigurations.copycat = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.default = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
         inputs.disko.nixosModules.default
