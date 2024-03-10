@@ -40,8 +40,13 @@
 		# As much as I think I would prefer to use systemd on principle
 		# Being able to do "nixos-rebuild switch -p test" to make a new profile/submenu is actually pretty dope... 
 		# test this now ...
-		boot.loader.systemd-boot.enable = true;
-		boot.loader.efi.canTouchEfiVariables = true;
+#		boot.loader.systemd-boot.enable = true;
+#		boot.loader.efi.canTouchEfiVariables = true;
+#		boot.loader.systemd-boot.memtest86.enable = true;
+		boot.loader.grub.enable = true;
+		boot.loader.grub = {
+			efiSupport = true;
+		};
 
 
 		# KERNEL
@@ -80,7 +85,7 @@
 
 		# WIRELESS
 		networking.wireless.networks = {
-			CHANGE_ME_TO_SSD = { # update this to SSID
+			Wildwood = { # update this to SSID
 				psk = "f3fbcbb759925b159da64c042dcb6d8da4c26ebdd042bf844a68a011270c1375"; # can use wpa_passphrase to change this
 			};
 			free.wifi = {};
@@ -90,8 +95,20 @@
 		#	AUTOMATIC UPDATES
 		# Scary! lets see how she handles it
 		# You can keep a NixOS system up-to-date automatically by adding the following to configuration.nix:
-		system.autoUpgrade.enable = true;
-		system.autoUpgrade.allowReboot = false;
+		# system.autoUpgrade.enable = true;
+		# system.autoUpgrade.allowReboot = false;
+		system.autoUpgrade = {
+			enable = true;
+			flake = inputs.self.outPath;
+			flags = [
+				"--update-input"
+				"nixpkgs"
+				"-L"
+			];
+			dates = "09:00";
+			randomizedDelaySec = "45min";
+		};
+
 		# This enables a periodically executed systemd service named nixos-upgrade.service. If the allowReboot option is false, it runs nixos-rebuild switch --upgrade to upgrade NixOS to the latest version in the current channel. (To see when the service runs, see systemctl list-timers.) If allowReboot is true, then the system will automatically reboot if the new generation contains a different kernel, initrd or kernel modules. You can also specify a channel explicitly, e.g.
 		# system.autoUpgrade.channel = "https://channels.nixos.org/nixos-23.11";
 
@@ -116,9 +133,17 @@
 		nixpkgs.config.allowUnfree = true;
 #		programs.home-manager.enable = true; # this doesnt work - i seen it shuuud, y no wrk pls god y.
 
+		# LD FIX (TY No Boilerplate) - https://nix.dev/guides/faq.html
+		programs.nix-ld.enable = true;
+		programs.nix-ld.libraries = with pkgs; [
+			# Add any missing dynamic libraries for unpackaged
+			#programs here, NOT in environment.systemPackages
+		];
+
 		programs.hyprland.enable = true;
 #		programs.hyprland.package = inputs.hyprland.package."${pkgs.system}".hyprland; # apparently this is better but it doesnt work for me yet? typo?
-		programs.zsh.enable = true;
+		programs.fish.enable = true;
+		users.defaultUserShell = pkgs.fish;
 
 
 		# When you can add things with programs.PROGRAM - as there seems to be more support with the way it ties in
@@ -137,7 +162,7 @@
 			# environment.sessionVariables = {
 			# 	EDITOR = "nvim"
 			# };
-			shell = pkgs.zsh;
+			shell = pkgs.fish;
 			description = "NiceGuy";
 #			initialPassword = "1";
 			initialPassword = ''\'';
