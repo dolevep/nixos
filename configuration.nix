@@ -40,13 +40,11 @@
 		# As much as I think I would prefer to use systemd on principle
 		# Being able to do "nixos-rebuild switch -p test" to make a new profile/submenu is actually pretty dope... 
 		# test this now ...
-#		boot.loader.systemd-boot.enable = true;
-#		boot.loader.efi.canTouchEfiVariables = true;
-#		boot.loader.systemd-boot.memtest86.enable = true;
+		# boot.loader.systemd-boot.enable = true;
+		# boot.loader.systemd-boot.memtest86.enable = true;
 		boot.loader.grub.enable = true;
-		boot.loader.grub = {
-			efiSupport = true;
-		};
+		boot.loader.efi.canTouchEfiVariables = true;
+		boot.loader.grub.memtest86.enable = true;
 
 
 		# KERNEL
