@@ -70,7 +70,7 @@
 								};
 								"/copycat" = {
 									mountOptions = [ "subvol=persist" "noatime" ];
-									mountpoint = "/copycat"
+									mountpoint = "/copycat";
 								};
 								"/static" = {
 									mountOptions = [ "subvol=persist" "noatime" ];
