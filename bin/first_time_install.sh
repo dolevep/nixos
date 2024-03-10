@@ -36,7 +36,7 @@ esac
 curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix?$RANDOM -o /tmp/disko.nix
 
 echo "fuck you for now no variable on this ... its being shitty"
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device \'"/dev/nvme0n1"\'
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device '"/dev/nvme0n1"'
 echo "hug you"
 exit 1
 
