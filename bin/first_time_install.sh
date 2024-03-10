@@ -34,7 +34,7 @@ while IFS= read -n1 -r -p "y or break: " && [[ $REPLY != q ]]; do
 done
 
 
-curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix -o /tmp/disko.nix
+curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix?$RANDOM -o /tmp/disko.nix
 
 nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device '"/dev/$DISK_DEV"'
 
