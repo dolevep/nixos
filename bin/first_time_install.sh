@@ -27,7 +27,7 @@ read DISK_DEV
 [[ $DISK_DEV == "" ]] && DISK_DEV="nvme0n1";
 
 echo "[/dev/$DISK_DEV] ... is this correct?"
-read -n1 -r -p " [y/enter/c] : " CHOICE
+read -n1 -r -p " to confirm [y|enter] : " CHOICE
 case $CHOICE in
   y|Y|"") echo "wheeee";;
   *) echo "Fuckitbruh" && exit 1 ;;
