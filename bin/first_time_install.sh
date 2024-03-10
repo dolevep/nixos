@@ -20,24 +20,28 @@ set -e
 
 [[ ! `whoami` == "root"  ]] && echo "Must be run as root.." && exit 1
 
+echo "Enter your device name (ex:nvme0n1): "
+read DISK_DEV
 
-# echo "Update your device (ex. '/dev/nvme0n1') in flake.nix"
-# read -p "Press any key to continue ..."	
-# vim flake.nix
-# echo "---"
-# cat flake.nix | grep "./disko.nix"
-# echo "---"
-#
-# read -p "enter y to continue: " choice
-# [[ ! $choice == "y" ]] && exit 1
+echo "[/dev/$DISK_DEV] ... is this correct?"
 
-curl https://raw.githubusercontent.com/dolevep/nixos/main/disko.nix -o /tmp/disko.nix
 
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device '"/dev/nvme0n1"'
+
+while IFS= read -n1 -r -p "y or break" && [[ $REPLY != q ]]; do
+  case $REPLY in
+    y) echo "wheeeeeeeeeee";;
+    *) echo "Fuckitbruh" && exit 1;;
+  esac
+done
+
+
+curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix -o /tmp/disko.nix
+
+nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /tmp/disko.nix --arg device '"/dev/$DISK_DEV"'
 
 
 nixos-generate-config --no-filesystems --root /mnt
-mkdir /copycat/base
+mkdir -p /copycat/base
 pushd /copycat/base
 mv /tmp/disko.nix .
 mv /mnt/etc/nixos/* .
@@ -49,12 +53,13 @@ cat configuration.nix | grep "system.stateVersion" >> _origin-version.nix
 echo "}" >> _origin-version.nix
 > configuration.nix
 
-curl https://raw.githubusercontent.com/dolevep/nixos/main/flake.nix -o flake.nix
-curl https://raw.githubusercontent.com/dolevep/nixos/main/configuration.nix -o configuration.nix
-curl https://raw.githubusercontent.com/dolevep/nixos/main/system-configuration.nix -o system-configuration.nix
-cp /tmp/disko.nix /mnt/etc/nixos/disko.nix
+curl https://raw.githubusercontent.com/dolevep/nixos/main/base/flake.nix -o flake.nix
+sed -i 's/nvme0n1/$DISK_DEV/g' flake.nix
+curl https://raw.githubusercontent.com/dolevep/nixos/main/base/configuration.nix -o configuration.nix
+echo "{}" > system-configuration.nix
+# curl https://raw.githubusercontent.com/dolevep/nixos/main/system-configuration.nix -o system-configuration.nix
 
 nixos-install --flake /copycat/base#default
-
 popd +1
+
 
