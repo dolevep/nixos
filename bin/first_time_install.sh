@@ -22,7 +22,7 @@ set -e
 
 echo "Enter your device name [nvme0n1]: "
 read DISK_DEV
-[[ $DISK_DEV == "" ]] DISK_DEV="nvme0n1"
+[[ $DISK_DEV == "" ]] && DISK_DEV="nvme0n1"
 
 echo "[/dev/$DISK_DEV] ... is this correct?"
 
