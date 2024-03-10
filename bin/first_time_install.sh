@@ -21,18 +21,19 @@ set -e
 [[ ! `whoami` == "root"  ]] && echo "Must be run as root.." && exit 1
 
 echo "Enter your device name [nvme0n1]: "
+
 read DISK_DEV
-[[ $DISK_DEV == "" ]] && DISK_DEV="nvme0n1"
+
+[[ $DISK_DEV == "" ]] && DISK_DEV="nvme0n1";
 
 echo "[/dev/$DISK_DEV] ... is this correct?"
 
 while IFS= read -n1 -r -p "y or break: " && [[ $REPLY != q ]]; do
   case $REPLY in
-    y) echo "\nwheeeeeeeeeee" && exit 0;;
-    *) echo "\nFuckitbruh" && exit 1;;
+    y) echo "\nwheeeeeeeeeee" && exit 0 ;;
+    *) echo "\nFuckitbruh" && exit 1 ;;
   esac
 done
-
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/base/disko.nix?$RANDOM -o /tmp/disko.nix
 
