@@ -19,7 +19,6 @@
 set -e
 
 [[ ! `whoami` == "root"  ]] && echo "Must be run as root.." && exit 1
-[[ ! `whoami` == "root"  ]] && echo "Must be run as root.." && exit 1
 
 echo "Update your device (ex. '/dev/nvme0n1') in flake.nix"
 read -p "Press any key to continue ..."	
@@ -30,10 +29,7 @@ cat flake.nix | grep "./disko.nix"
 echo "---"
 
 read -p "enter y to continue" choice
-case $choice in 
-	y|Y ) continue
-	* ) exit 1;;
-esac
+[[ ! $choice == "y" ]] && exit 1
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/disko.nix -o /tmp/disko.nix
 
