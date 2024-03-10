@@ -28,7 +28,7 @@ echo "---"
 cat flake.nix | grep "./disko.nix"
 echo "---"
 
-read -p "enter y to continue" choice
+read -p "enter y to continue: " choice
 [[ ! $choice == "y" ]] && exit 1
 
 curl https://raw.githubusercontent.com/dolevep/nixos/main/disko.nix -o /tmp/disko.nix
